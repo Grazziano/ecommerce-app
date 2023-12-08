@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Ecommerce',
+  title: 'Dev Shop - Ecommerce',
   description: 'An ecommerce site build with NextJS and Typescript.',
 };
 
