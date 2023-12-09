@@ -12,7 +12,7 @@ export default function ThemeProvider({ children }: ThemeProviderProps) {
       <ConfigProvider
         theme={{
           token: {
-            colorPrimary: '#000',
+            colorPrimary: '#1C1C1C',
           },
         }}
       >
