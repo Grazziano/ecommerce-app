@@ -2,6 +2,7 @@
 import React from 'react';
 import { Form, Button } from 'antd';
 import Link from 'next/link';
+import { getAntdFieldRequiredRule } from '@/helpers/validations';
 
 interface UserType {
   name: string;
@@ -15,8 +16,8 @@ export default function Register() {
   };
 
   return (
-    <div className="grid grid-cols-2 min-h-screen">
-      <div className="h-full bg-primary flex items-center justify-center">
+    <div className="grid grid-cols-1 md:grid-cols-2 min-h-screen">
+      <div className="h-full bg-primary hidden md:flex items-center justify-center">
         <h1 className="text-7xl font-bold text-red-500">Dev</h1>
         <h1 className="text-7xl font-bold text-gray-500">-</h1>
         <h1 className="text-7xl font-bold text-yellow-500">Shop</h1>
@@ -24,7 +25,7 @@ export default function Register() {
 
       <div className="flex items-center justify-center h-full">
         <Form
-          className="w-[500px] flex flex-col gap-5"
+          className="w-[400px] flex flex-col gap-5"
           layout="vertical"
           onFinish={onRegister}
         >
@@ -32,15 +33,27 @@ export default function Register() {
 
           <hr />
 
-          <Form.Item name="name" label="Name">
+          <Form.Item
+            name="name"
+            label="Name"
+            rules={getAntdFieldRequiredRule('Please input your name!')}
+          >
             <input type="text" />
           </Form.Item>
 
-          <Form.Item name="email" label="Email">
+          <Form.Item
+            name="email"
+            label="Email"
+            rules={getAntdFieldRequiredRule('Please input your email!')}
+          >
             <input type="email" />
           </Form.Item>
 
-          <Form.Item name="password" label="Password">
+          <Form.Item
+            name="password"
+            label="Password"
+            rules={getAntdFieldRequiredRule('Please input your password!')}
+          >
             <input type="password" />
           </Form.Item>
 
@@ -49,7 +62,7 @@ export default function Register() {
           </Button>
 
           <Link href="/auth/login" className="text-primary">
-            Already have an account? login
+            Already have an account? Login
           </Link>
         </Form>
       </div>
