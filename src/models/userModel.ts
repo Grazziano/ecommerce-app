@@ -36,13 +36,13 @@ export const userSchema = new mongoose.Schema(
 );
 
 // if the model is already defined, use that model else create a new one
-// const User = mongoose.models.User || mongoose.model('User', userSchema);
-let User = null;
+const User = mongoose.models['users'] || mongoose.model('users', userSchema);
+// let User = null;
 
-if (mongoose.models['users']) {
-  User = mongoose.models['users'];
-} else {
-  User = mongoose.model('users', userSchema);
-}
+// if (mongoose.models['users']) {
+//   User = mongoose.models['users'];
+// } else {
+//   User = mongoose.model('users', userSchema);
+// }
 
 export default User;
