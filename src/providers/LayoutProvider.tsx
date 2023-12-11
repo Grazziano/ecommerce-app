@@ -4,23 +4,26 @@ import { usePathname, useRouter } from 'next/navigation';
 import axios from 'axios';
 import { Popover, message } from 'antd';
 import Loader from '@/components/Loader';
+import { useDispatch, useSelector } from 'react-redux';
+import { SetCurrentUser } from '@/redux/userSlice';
 
 interface LayoutProviderProps {
   children: React.ReactNode;
 }
 
 export default function LayoutProvider({ children }: LayoutProviderProps) {
-  const [currentUser, setCurrentUser] = useState<any>(null);
+  const { currentUser } = useSelector((state: any) => state.user);
   const [loading, setLoading] = useState<boolean>(false);
   const pathname = usePathname();
   const isPrivatePage =
     pathname !== '/auth/login' && pathname !== '/auth/register';
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const getCurrentUser = async () => {
     try {
       const response = await axios.get('/api/auth/currentuser');
-      setCurrentUser(response.data.data);
+      dispatch(SetCurrentUser(response.data.data));
     } catch (error: any) {
       message.error(error.message);
     }
@@ -30,14 +33,15 @@ export default function LayoutProvider({ children }: LayoutProviderProps) {
     if (isPrivatePage) {
       getCurrentUser();
     }
-  }, [pathname]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isPrivatePage, pathname]);
 
   const onLogout = async () => {
     try {
       setLoading(true);
       await axios.get('/api/auth/logout');
       message.success('Logout successful');
-      setCurrentUser(null);
+      dispatch(SetCurrentUser(null));
       router.push('/auth/login');
     } catch (error: any) {
       message.error(error.response.data.message);
