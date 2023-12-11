@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import axios from 'axios';
 import { Popover, message } from 'antd';
+import Loader from '@/components/Loader';
 
 interface LayoutProviderProps {
   children: React.ReactNode;
@@ -10,6 +11,7 @@ interface LayoutProviderProps {
 
 export default function LayoutProvider({ children }: LayoutProviderProps) {
   const [currentUser, setCurrentUser] = useState<any>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   const pathname = usePathname();
   const isPrivatePage =
     pathname !== '/auth/login' && pathname !== '/auth/register';
@@ -32,12 +34,15 @@ export default function LayoutProvider({ children }: LayoutProviderProps) {
 
   const onLogout = async () => {
     try {
+      setLoading(true);
       await axios.get('/api/auth/logout');
       message.success('Logout successful');
       setCurrentUser(null);
       router.push('/auth/login');
     } catch (error: any) {
       message.error(error.response.data.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -63,6 +68,8 @@ export default function LayoutProvider({ children }: LayoutProviderProps) {
 
   return (
     <div>
+      {loading && <Loader />}
+
       {isPrivatePage && currentUser && (
         <>
           <div className="bg-primary py-2 px-5 flex justify-between items-center">
