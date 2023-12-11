@@ -25,10 +25,21 @@ export default function LayoutProvider({ children }: LayoutProviderProps) {
   };
 
   useEffect(() => {
-    getCurrentUser();
-  }, []);
+    if (isPrivatePage) {
+      getCurrentUser();
+    }
+  }, [pathname]);
 
-  const onLogout = async () => {};
+  const onLogout = async () => {
+    try {
+      await axios.get('/api/auth/logout');
+      message.success('Logout successful');
+      setCurrentUser(null);
+      router.push('/auth/login');
+    } catch (error: any) {
+      message.error(error.response.data.message);
+    }
+  };
 
   const content = (
     <div className="flex flex-col gap-3 p-2">
