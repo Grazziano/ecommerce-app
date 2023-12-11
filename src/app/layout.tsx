@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import ThemeProvider from '@/providers/ThemeProvider';
+import LayoutProvider from '@/providers/LayoutProvider';
 
 export const metadata: Metadata = {
   title: 'Dev Shop - Ecommerce',
@@ -14,8 +15,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        {/* REMIX ICON */}
+        <link
+          href="https://cdn.jsdelivr.net/npm/remixicon@3.7.0/fonts/remixicon.css"
+          rel="stylesheet"
+        />
+      </head>
       <body>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <LayoutProvider>{children}</LayoutProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
