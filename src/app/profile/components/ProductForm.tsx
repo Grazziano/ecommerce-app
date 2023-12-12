@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { Form, message } from 'antd';
+import { Form, message, Upload } from 'antd';
 import { getAntdFieldRequiredRule } from '@/helpers/validations';
 import axios from 'axios';
 
@@ -17,7 +17,15 @@ interface CategoriesInterface {
   _id: string;
 }
 
-export default function ProductForm() {
+interface ProductFormProps {
+  selectedFiles: any[];
+  setSelectedFiles: any;
+}
+
+export default function ProductForm({
+  selectedFiles,
+  setSelectedFiles,
+}: ProductFormProps) {
   const [categories, setCategories] = useState([]);
 
   const getCategories = async () => {
@@ -89,6 +97,20 @@ export default function ProductForm() {
         >
           <input type="number" />
         </Form.Item>
+
+        <div className="col-span-3">
+          <Upload
+            listType="picture-card"
+            multiple
+            // onChange={({ fileList }) => setSelectedFiles(fileList)}
+            beforeUpload={(file) => {
+              setSelectedFiles((prev: any) => [...prev, file]);
+              return false;
+            }}
+          >
+            Upload
+          </Upload>
+        </div>
       </Form>
     </div>
   );
