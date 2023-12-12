@@ -42,3 +42,7 @@ textarea {
   min-height: 100px;
   padding: 10px;
 }
+
+table {
+  border: 1px solid #a9a9a9;
+}

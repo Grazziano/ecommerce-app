@@ -30,3 +30,15 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
 }
+
+export async function GET(request: NextRequest) {
+  try {
+    await validateJWT(request);
+
+    const categories = await Category.find().populate('createdBy', 'name');
+
+    return NextResponse.json({ data: categories });
+  } catch (error: any) {
+    return NextResponse.json({ message: error.message }, { status: 500 });
+  }
+}

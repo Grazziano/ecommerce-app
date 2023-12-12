@@ -1,15 +1,29 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import { Tabs } from 'antd';
 import { useSelector } from 'react-redux';
 import CategoriesList from './components/CategoriesList';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function Profile() {
   const { currentUser } = useSelector((state: any) => state.user);
+  const router = useRouter();
+
+  const searchParams = useSearchParams();
+  const id = searchParams.get('id') || '1';
+  const [selectedTab, setSelectedTab] = useState(id);
+
   return (
     <div>
       {currentUser.isAdmin && (
-        <Tabs defaultActiveKey="1">
+        <Tabs
+          defaultActiveKey="1"
+          onChange={(key) => {
+            router.push(`/profile?id=${key}`);
+            setSelectedTab(key);
+          }}
+          activeKey={selectedTab}
+        >
           <Tabs.TabPane tab="Products" key="1">
             Products
           </Tabs.TabPane>
