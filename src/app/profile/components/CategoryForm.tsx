@@ -7,12 +7,16 @@ interface CategoryFormProps {
   showCategoryForm: boolean;
   setShowCategoryForm: (show: boolean) => void;
   reloadData: () => void;
+  selectedCategory: any;
+  setSelectedCategory: (category: any) => void;
 }
 
 export default function CategoryForm({
   showCategoryForm,
   setShowCategoryForm,
   reloadData,
+  selectedCategory,
+  setSelectedCategory,
 }: CategoryFormProps) {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
@@ -34,9 +38,16 @@ export default function CategoryForm({
   return (
     <Modal
       open={showCategoryForm}
-      onCancel={() => setShowCategoryForm(false)}
+      onCancel={() => {
+        setShowCategoryForm(false);
+        setSelectedCategory(null);
+      }}
       centered
-      title={<h1 className="text-2xl font-bold text-gray-800">Add Category</h1>}
+      title={
+        <h1 className="text-2xl font-bold text-gray-800">
+          {selectedCategory ? 'Edit Category' : 'Add Category'}
+        </h1>
+      }
       closable={false}
       okText="Save"
       onOk={() => form.submit()}
@@ -48,6 +59,7 @@ export default function CategoryForm({
         className="flex flex-col gap-5 mt-5"
         form={form}
         onFinish={onFinish}
+        initialValues={selectedCategory}
       >
         <Form.Item
           label="Category Name"

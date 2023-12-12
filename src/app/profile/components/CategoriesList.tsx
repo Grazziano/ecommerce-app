@@ -9,6 +9,8 @@ export default function CategoriesList() {
   const [showCategoryForm, setShowCategoryForm] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
   const getCategories = async () => {
     try {
       setLoading(true);
@@ -44,6 +46,30 @@ export default function CategoriesList() {
       dataIndex: 'createdAt',
       render: (createdAt: string) => moment(createdAt).format('DD MMM YYYY'),
     },
+    {
+      title: 'Action',
+      dataIndex: 'action',
+      render: (action: any, params: any) => {
+        // console.log({ action, params });
+        return (
+          <div className="flex gap-3 items-center">
+            <Button type="default" className="btn-small">
+              Delete
+            </Button>
+            <Button
+              type="primary"
+              className="btn-small"
+              onClick={() => {
+                setSelectedCategory(params);
+                setShowCategoryForm(true);
+              }}
+            >
+              Edit
+            </Button>
+          </div>
+        );
+      },
+    },
   ];
 
   return (
@@ -67,6 +93,8 @@ export default function CategoriesList() {
         <CategoryForm
           showCategoryForm={showCategoryForm}
           setShowCategoryForm={setShowCategoryForm}
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
           reloadData={() => {}}
         />
       )}
