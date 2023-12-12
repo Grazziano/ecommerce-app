@@ -95,7 +95,7 @@ export default function CategoriesList() {
           setShowCategoryForm={setShowCategoryForm}
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
-          reloadData={() => {}}
+          reloadData={() => getCategories()}
         />
       )}
     </div>
