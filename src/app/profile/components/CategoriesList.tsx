@@ -4,12 +4,26 @@ import CategoryForm from './CategoryForm';
 import axios from 'axios';
 import moment from 'moment';
 
+interface SelectedCategory {
+  createdAt: string;
+  createdBy: {
+    _id: string;
+    name: string;
+  };
+  description: string;
+  name: string;
+  updatedAt: string;
+  __v: number;
+  _id: string;
+}
+
 export default function CategoriesList() {
   const [categories, setCategories] = useState([]);
   const [showCategoryForm, setShowCategoryForm] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [loadingForDelete, setLoadingForDelete] = useState(false);
+  const [selectedCategory, setSelectedCategory] =
+    useState<SelectedCategory | null>(null);
 
   const getCategories = async () => {
     try {
@@ -26,6 +40,20 @@ export default function CategoriesList() {
   useEffect(() => {
     getCategories();
   }, []);
+
+  const onDelete = async (id: string) => {
+    try {
+      setLoadingForDelete(true);
+      await axios.delete(`/api/categories/${id}`);
+      message.success('Category deleted successfully');
+      setSelectedCategory(null);
+      getCategories();
+    } catch (error: any) {
+      message.error(error.response.data.message || error.message);
+    } finally {
+      setLoadingForDelete(false);
+    }
+  };
 
   const columns = [
     {
@@ -53,7 +81,15 @@ export default function CategoriesList() {
         // console.log({ action, params });
         return (
           <div className="flex gap-3 items-center">
-            <Button type="default" className="btn-small">
+            <Button
+              type="default"
+              className="btn-small"
+              onClick={() => {
+                setSelectedCategory(params);
+                onDelete(params._id);
+              }}
+              loading={loadingForDelete && selectedCategory?._id === params._id}
+            >
               Delete
             </Button>
             <Button
