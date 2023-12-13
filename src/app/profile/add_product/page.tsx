@@ -4,6 +4,7 @@ import ProductForm from '../components/ProductForm';
 import axios from 'axios';
 import { message } from 'antd';
 import { useRouter } from 'next/navigation';
+import { uploadImagesAndReturnUrls } from '@/helpers/imageHandling';
 
 export default function AddProduct() {
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -13,12 +14,15 @@ export default function AddProduct() {
   const onSave = async (values: any) => {
     try {
       setLoading(true);
-      values.images = [];
+
+      const imagesUrl = await uploadImagesAndReturnUrls(selectedFiles);
+      values.images = imagesUrl;
+
       await axios.post('/api/products', values);
       message.success('Product created successfully');
       router.push('/profile?id=1');
     } catch (error: any) {
-      message.error(error.response.data.message || error.message);
+      message.error(error.message || error.response.data.message);
     } finally {
       setLoading(false);
     }
