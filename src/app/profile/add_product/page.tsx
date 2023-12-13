@@ -1,9 +1,28 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import ProductForm from '../components/ProductForm';
+import axios from 'axios';
+import { message } from 'antd';
+import { useRouter } from 'next/navigation';
 
 export default function AddProduct() {
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();
+
+  const onSave = async (values: any) => {
+    try {
+      setLoading(true);
+      values.images = [];
+      await axios.post('/api/products', values);
+      message.success('Product created successfully');
+      router.push('/profile?id=1');
+    } catch (error: any) {
+      message.error(error.response.data.message || error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     console.log(selectedFiles);
@@ -15,8 +34,9 @@ export default function AddProduct() {
       <hr />
 
       <ProductForm
-        selectedFiles={selectedFiles}
         setSelectedFiles={setSelectedFiles}
+        loading={loading}
+        onSave={onSave}
       />
     </div>
   );

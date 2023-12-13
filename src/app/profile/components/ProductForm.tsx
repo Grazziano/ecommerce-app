@@ -1,8 +1,9 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { Form, message, Upload } from 'antd';
+import { Button, Form, message, Upload } from 'antd';
 import { getAntdFieldRequiredRule } from '@/helpers/validations';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 interface CategoriesInterface {
   createdAt: string;
@@ -18,15 +19,18 @@ interface CategoriesInterface {
 }
 
 interface ProductFormProps {
-  selectedFiles: any[];
   setSelectedFiles: any;
+  loading: boolean;
+  onSave: any;
 }
 
 export default function ProductForm({
-  selectedFiles,
   setSelectedFiles,
+  loading,
+  onSave,
 }: ProductFormProps) {
   const [categories, setCategories] = useState([]);
+  const router = useRouter();
 
   const getCategories = async () => {
     try {
@@ -46,6 +50,7 @@ export default function ProductForm({
       <Form
         layout="vertical"
         className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-5"
+        onFinish={onSave}
       >
         <div className="col-span-3">
           <Form.Item
@@ -110,6 +115,15 @@ export default function ProductForm({
           >
             Upload
           </Upload>
+        </div>
+
+        <div className="col-span-3 justify-end flex gap-5">
+          <Button type="default" onClick={() => router.back()}>
+            Back
+          </Button>
+          <Button type="primary" htmlType="submit" loading={loading}>
+            Save
+          </Button>
         </div>
       </Form>
     </div>
