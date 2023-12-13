@@ -22,14 +22,19 @@ interface ProductFormProps {
   setSelectedFiles: any;
   loading: boolean;
   onSave: any;
+  inicialValues?: any;
 }
 
 export default function ProductForm({
   setSelectedFiles,
   loading,
   onSave,
+  inicialValues,
 }: ProductFormProps) {
   const [categories, setCategories] = useState([]);
+  const [existingImages, setExistingImages] = useState<any[]>(
+    inicialValues?.images || []
+  );
   const router = useRouter();
 
   const getCategories = async () => {
@@ -51,6 +56,7 @@ export default function ProductForm({
         layout="vertical"
         className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-5"
         onFinish={onSave}
+        initialValues={inicialValues}
       >
         <div className="col-span-3">
           <Form.Item
@@ -102,6 +108,28 @@ export default function ProductForm({
         >
           <input type="number" />
         </Form.Item>
+
+        <div className="col-span-3 flex gap-5">
+          {existingImages.map((image: any) => (
+            <div
+              key={image}
+              className="border border-solid p-3 border-gray-300"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={image} alt="product" className="w-20 h-20" />
+              <h1
+                className="cursor-pointer underline text-sm"
+                onClick={() => {
+                  setExistingImages((prev: any) =>
+                    prev.filter((i: any) => i !== image)
+                  );
+                }}
+              >
+                Remove
+              </h1>
+            </div>
+          ))}
+        </div>
 
         <div className="col-span-3">
           <Upload

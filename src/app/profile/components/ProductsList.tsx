@@ -62,7 +62,13 @@ export default function ProductsList() {
             <Button type="default" className="btn-small" onClick={() => {}}>
               Delete
             </Button>
-            <Button type="primary" className="btn-small" onClick={() => {}}>
+            <Button
+              type="primary"
+              className="btn-small"
+              onClick={() => {
+                router.push(`/profile/edit_product/${params._id}`);
+              }}
+            >
               Edit
             </Button>
           </div>
