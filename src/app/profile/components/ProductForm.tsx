@@ -23,6 +23,8 @@ interface ProductFormProps {
   loading: boolean;
   onSave: any;
   inicialValues?: any;
+  existingImages?: any;
+  setExistingImages?: any;
 }
 
 export default function ProductForm({
@@ -30,11 +32,10 @@ export default function ProductForm({
   loading,
   onSave,
   inicialValues,
+  existingImages,
+  setExistingImages,
 }: ProductFormProps) {
   const [categories, setCategories] = useState([]);
-  const [existingImages, setExistingImages] = useState<any[]>(
-    inicialValues?.images || []
-  );
   const router = useRouter();
 
   const getCategories = async () => {
@@ -109,27 +110,29 @@ export default function ProductForm({
           <input type="number" />
         </Form.Item>
 
-        <div className="col-span-3 flex gap-5">
-          {existingImages.map((image: any) => (
-            <div
-              key={image}
-              className="border border-solid p-3 border-gray-300"
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={image} alt="product" className="w-20 h-20" />
-              <h1
-                className="cursor-pointer underline text-sm"
-                onClick={() => {
-                  setExistingImages((prev: any) =>
-                    prev.filter((i: any) => i !== image)
-                  );
-                }}
+        {existingImages && (
+          <div className="col-span-3 flex gap-5">
+            {existingImages.map((image: any) => (
+              <div
+                key={image}
+                className="border border-solid p-3 border-gray-300"
               >
-                Remove
-              </h1>
-            </div>
-          ))}
-        </div>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={image} alt="product" className="w-20 h-20" />
+                <h1
+                  className="cursor-pointer underline text-sm"
+                  onClick={() => {
+                    setExistingImages((prev: any) =>
+                      prev.filter((i: any) => i !== image)
+                    );
+                  }}
+                >
+                  Remove
+                </h1>
+              </div>
+            ))}
+          </div>
+        )}
 
         <div className="col-span-3">
           <Upload
