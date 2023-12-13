@@ -37,5 +37,10 @@ const productSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.models['products'] ||
-  mongoose.model('products', productSchema);
+// delete old model if exists
+if (mongoose.models && mongoose.models['products']) {
+  delete mongoose.models['products'];
+}
+
+// export default mongoose.models['products'] || mongoose.model('products', productSchema);
+export default mongoose.model('products', productSchema);
