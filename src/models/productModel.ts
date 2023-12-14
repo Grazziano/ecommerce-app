@@ -28,6 +28,11 @@ const productSchema = new mongoose.Schema(
       required: true,
       default: [],
     },
+    features: {
+      type: Array,
+      required: true,
+      default: [],
+    },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'users',

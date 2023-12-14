@@ -148,6 +148,37 @@ export default function ProductForm({
           </Upload>
         </div>
 
+        <div className="col-span-3 mt-10">
+          <h1 className="text-lg font-semibold">Features</h1>
+          <Form.List name="features">
+            {(fields, { add, remove }) => (
+              <div className="flex flex-col gap-3">
+                {fields.map((field, index) => (
+                  <div key={field.key} className="flex gap-5 items-end">
+                    <Form.Item
+                      label={`Feature ${index + 1}`}
+                      name={[field.name]}
+                      className="w-full"
+                    >
+                      <input type="text" />
+                    </Form.Item>
+                    <Button onClick={() => remove(field.name)}>Remove</Button>
+                  </div>
+                ))}
+
+                <Button
+                  type="dashed"
+                  onClick={() => add()}
+                  block
+                  className="mt-5"
+                >
+                  Add Feature
+                </Button>
+              </div>
+            )}
+          </Form.List>
+        </div>
+
         <div className="col-span-3 justify-end flex gap-5">
           <Button type="default" onClick={() => router.back()}>
             Back
