@@ -57,3 +57,8 @@ thead th {
 .btn-small {
   height: 30px !important;
 }
+
+a {
+  text-decoration: none;
+  color: #000;
+}

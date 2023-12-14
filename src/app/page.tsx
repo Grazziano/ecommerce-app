@@ -1,7 +1,9 @@
 import AddToCartBtn from '@/components/AddToCartBtn';
+import { Rate } from 'antd';
 import axios from 'axios';
 import { cookies } from 'next/headers';
 import Image from 'next/image';
+import Link from 'next/link';
 
 async function getProducts() {
   try {
@@ -25,18 +27,33 @@ export default async function Home() {
 
   return (
     <div>
-      <div className="grid grid-cols-5">
+      <div className="grid grid-cols-4 gap-5">
         {products.map((product: any) => (
           <div
             key={product.id}
-            className="p-4 flex flex-col gap-2 border border-solid border-gray-300 items-center"
+            className="p-4 flex flex-col gap-2 border border-solid border-gray-300"
           >
-            <Image src={product.images[0]} alt="" height={180} width={180} />
-            <h1 className="text-sm">{product.name}</h1>
-            <div className="flex gap-5 items-center">
-              <h1 className="text-xl font-semibold">$ {product.price}</h1>
-              <AddToCartBtn product={product} />
-            </div>
+            <Link href={`/products/${product._id}`}>
+              <div className="text-center">
+                <Image
+                  src={product.images[0]}
+                  alt=""
+                  height={180}
+                  width={180}
+                />
+              </div>
+
+              <span className="text-sm">{product.name}</span>
+
+              <div className="flex justify-between items-center">
+                <Rate disabled defaultValue={product.rating || 0} />
+
+                <div className="flex gap-5 items-center">
+                  <h1 className="text-xl font-semibold">$ {product.price}</h1>
+                  <AddToCartBtn product={product} />
+                </div>
+              </div>
+            </Link>
           </div>
         ))}
       </div>
