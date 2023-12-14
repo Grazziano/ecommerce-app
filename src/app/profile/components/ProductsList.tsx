@@ -7,7 +7,9 @@ import { useRouter } from 'next/navigation';
 export default function ProductsList() {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
+  const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
   const [products, setProducts] = useState([]);
+  const [selectProduct, setSelectProduct] = useState<any>(null);
 
   const getProducts = async () => {
     try {
@@ -24,6 +26,19 @@ export default function ProductsList() {
   useEffect(() => {
     getProducts();
   }, []);
+
+  const deleteProduct = async (productId: string) => {
+    try {
+      setDeleteLoading(true);
+      await axios.delete(`/api/products/${productId}`);
+      message.success('Product deleted successfully');
+      getProducts();
+    } catch (error: any) {
+      message.error(error.message);
+    } finally {
+      setDeleteLoading(false);
+    }
+  };
 
   const columns = [
     {
@@ -59,7 +74,15 @@ export default function ProductsList() {
       render: (action: any, params: any) => {
         return (
           <div className="flex gap-3 items-center">
-            <Button type="default" className="btn-small" onClick={() => {}}>
+            <Button
+              type="default"
+              className="btn-small"
+              onClick={() => {
+                setSelectProduct(params);
+                deleteProduct(params._id);
+              }}
+              loading={deleteLoading && selectProduct._id === params._id}
+            >
               Delete
             </Button>
             <Button
