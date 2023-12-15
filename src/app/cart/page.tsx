@@ -90,9 +90,18 @@ export default function Cart() {
               <span className="col-span-1">$ {item.price * item.quantity}</span>
             </div>
           ))}
-        </div>
 
-        <div className="col-span-1"></div>
+          <hr />
+          <div className="flex justify-end">
+            <h1>
+              Total: ${' '}
+              {cartItems.reduce(
+                (acc, item) => acc + item.price * item.quantity,
+                0
+              )}
+            </h1>
+          </div>
+        </div>
       </div>
     </div>
   );

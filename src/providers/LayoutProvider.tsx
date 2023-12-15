@@ -38,6 +38,11 @@ export default function LayoutProvider({ children }: LayoutProviderProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPrivatePage, pathname]);
 
+  useEffect(() => {
+    // when the cartitem changes, will save the cartItems to the localstorage
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+  }, [cartItems]);
+
   const onLogout = async () => {
     try {
       setLoading(true);
