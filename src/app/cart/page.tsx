@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import {
   CartState,
   EditProductInCart,
@@ -7,17 +7,28 @@ import {
 } from '@/redux/cartSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import Image from 'next/image';
+import { Button } from 'antd';
+import CheckoutModal from './CheckoutModal';
 
 export default function Cart() {
   const { cartItems }: CartState = useSelector((state: any) => state.cart);
   const dispatch = useDispatch();
 
-  return (
-    <div>
-      <h1 className="text-2xl font-semibold">My Cart</h1>
+  const [showCheckoutModal, setShowCheckoutModal] = useState(false);
 
-      <div className="grid grid-cols-3 mt-5 text-gray-700">
+  const subTotal = cartItems.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
+
+  const total = subTotal + 50;
+
+  return (
+    <div className="mt-10">
+      <div className="grid grid-cols-3 text-gray-700 gap-10">
         <div className="col-span-2 flex flex-col gap-5">
+          <h1 className="text-2xl font-semibold">My Cart</h1>
+
           <div className="grid grid-cols-7 gap-10">
             <span className="col-span-4">Product</span>
             <span className="col-span-1">Each</span>
@@ -91,7 +102,7 @@ export default function Cart() {
             </div>
           ))}
 
-          <hr className="w-full" />
+          {/* <hr className="w-full" />
           <div className="flex justify-end">
             <h1>
               Total: ${' '}
@@ -100,9 +111,57 @@ export default function Cart() {
                 0
               )}
             </h1>
+          </div> */}
+        </div>
+
+        <div className="col-span-1 border border-gray-400 border-solid p-5">
+          <h1 className="text-xl font-semibold">Amount Summary</h1>
+
+          <hr className="border border-gray-400 border-dashed" />
+
+          <div className="flex flex-col gap-2 mt-5">
+            <div className="flex justify-between">
+              <span>Subtotal</span>
+              <span>
+                ${' '}
+                {cartItems.reduce(
+                  (acc, item) => acc + item.price * item.quantity,
+                  0
+                )}
+              </span>
+            </div>
+
+            <div className="flex justify-between">
+              <span>Shipping Fee</span>
+              <span>$ 50</span>
+            </div>
+
+            <hr className="border border-gray-200 border-dashed" />
+
+            <div className="flex justify-between font-semibold">
+              <span>Total</span>
+              <span>$ {total}</span>
+            </div>
+
+            <Button
+              type="primary"
+              block
+              className="mt-10"
+              onClick={() => setShowCheckoutModal(true)}
+            >
+              Proced to Checkout
+            </Button>
           </div>
         </div>
       </div>
+
+      {showCheckoutModal && (
+        <CheckoutModal
+          showCheckoutModal={showCheckoutModal}
+          setShowCheckoutModal={setShowCheckoutModal}
+          total={total}
+        />
+      )}
     </div>
   );
 }
