@@ -44,16 +44,16 @@ export default async function Home() {
               </div>
 
               <span className="text-sm">{product.name}</span>
-
-              <div className="flex justify-between items-center">
-                <Rate disabled defaultValue={product.rating || 0} />
-
-                <div className="flex gap-5 items-center">
-                  <h1 className="text-xl font-semibold">$ {product.price}</h1>
-                  <AddToCartBtn product={product} />
-                </div>
-              </div>
             </Link>
+
+            <div className="flex justify-between items-center">
+              <Rate disabled defaultValue={product.rating || 0} />
+
+              <div className="flex gap-5 items-center">
+                <h1 className="text-xl font-semibold">$ {product.price}</h1>
+                <AddToCartBtn product={product} />
+              </div>
+            </div>
           </div>
         ))}
       </div>

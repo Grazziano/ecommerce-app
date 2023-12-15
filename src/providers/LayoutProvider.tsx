@@ -2,10 +2,11 @@
 import React, { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import axios from 'axios';
-import { Popover, message } from 'antd';
+import { Badge, Popover, message } from 'antd';
 import Loader from '@/components/Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { SetCurrentUser } from '@/redux/userSlice';
+import { CartState } from '@/redux/cartSlice';
 
 interface LayoutProviderProps {
   children: React.ReactNode;
@@ -13,6 +14,7 @@ interface LayoutProviderProps {
 
 export default function LayoutProvider({ children }: LayoutProviderProps) {
   const { currentUser } = useSelector((state: any) => state.user);
+  const { cartItems }: CartState = useSelector((state: any) => state.cart);
   const [loading, setLoading] = useState<boolean>(false);
   const pathname = usePathname();
   const isPrivatePage =
@@ -86,7 +88,12 @@ export default function LayoutProvider({ children }: LayoutProviderProps) {
             </div>
 
             <div className="flex gap-5 items-center">
-              <i className="ri-shopping-cart-line text-white text-2xl"></i>
+              <Badge count={cartItems.length} className="cursor-pointer">
+                <i
+                  className="ri-shopping-cart-line text-white text-2xl"
+                  onClick={() => router.push('/cart')}
+                ></i>
+              </Badge>
 
               <Popover content={content} trigger="click">
                 <div className="flex h-8 w-8 bg-white p-2 rounded-full items-center justify-center cursor-pointer">

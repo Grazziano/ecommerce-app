@@ -1,14 +1,31 @@
 'use client';
 import React from 'react';
-import { Button } from 'antd';
+import { Button, message } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { AddProductToCart, CartState } from '@/redux/cartSlice';
+import { ProductInterface } from '@/interfaces/intex';
 
-export default function AddToCartBtn({ product }: { product: any }) {
+interface AddToCardProps {
+  product: ProductInterface;
+}
+
+export default function AddToCartBtn({ product }: AddToCardProps) {
+  const dispatch = useDispatch();
+  const { cartItems }: CartState = useSelector((state: any) => state.cart);
+
   return (
     <Button
       type="primary"
       size="small"
       className="btn-small"
-      onClick={() => {}}
+      onClick={(e) => {
+        dispatch(AddProductToCart({ ...product, quantity: 1 }));
+        message.success('Added to cart');
+        e.stopPropagation();
+      }}
+      disabled={cartItems.some(
+        (item: ProductInterface) => item._id === product._id
+      )}
     >
       Add to card
     </Button>
