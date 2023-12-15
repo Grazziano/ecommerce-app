@@ -91,7 +91,7 @@ export default function Cart() {
             </div>
           ))}
 
-          <hr />
+          <hr className="w-full" />
           <div className="flex justify-end">
             <h1>
               Total: ${' '}
