@@ -8,5 +8,5 @@ export interface ProductInterface {
   _id?: string;
   createdAt?: string;
   updatedAt?: string;
-  quantity?: number;
+  quantity: number;
 }
