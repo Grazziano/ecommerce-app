@@ -27,7 +27,16 @@ export const cartSlice = createSlice({
         (item) => item._id !== action.payload._id
       );
     },
+    EditProductInCart: (
+      state,
+      action: { type: string; payload: ProductInterface }
+    ) => {
+      state.cartItems = state.cartItems.map((item) =>
+        item._id === action.payload._id ? action.payload : item
+      );
+    },
   },
 });
 
-export const { AddProductToCart, RemoveProductFromCart } = cartSlice.actions;
+export const { AddProductToCart, RemoveProductFromCart, EditProductInCart } =
+  cartSlice.actions;

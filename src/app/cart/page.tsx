@@ -1,11 +1,16 @@
 'use client';
 import React from 'react';
-import { CartState } from '@/redux/cartSlice';
-import { useSelector } from 'react-redux';
+import {
+  CartState,
+  EditProductInCart,
+  RemoveProductFromCart,
+} from '@/redux/cartSlice';
+import { useDispatch, useSelector } from 'react-redux';
 import Image from 'next/image';
 
 export default function Cart() {
   const { cartItems }: CartState = useSelector((state: any) => state.cart);
+  const dispatch = useDispatch();
 
   return (
     <div>
@@ -39,16 +44,47 @@ export default function Cart() {
                 />
                 <div className="flex flex-col gap-2 ml-2">
                   <span className="text-sm">{item.name}</span>
-                  <span className="text-xs underline text-red-700">Remove</span>
+                  <span
+                    className="text-xs underline text-red-700 cursor-pointer"
+                    onClick={() => {
+                      dispatch(RemoveProductFromCart(item));
+                    }}
+                  >
+                    Remove
+                  </span>
                 </div>
               </div>
 
               <span className="col-span-1">$ {item.price}</span>
 
               <span className="col-span-1 border border-solid p-2 border-gray-400 flex gap-2 justify-between">
-                <i className="ri-subtract-line"></i>
+                <i
+                  className="ri-subtract-line"
+                  onClick={() => {
+                    if (item.quantity !== 1) {
+                      dispatch(
+                        EditProductInCart({
+                          ...item,
+                          quantity: item.quantity - 1,
+                        })
+                      );
+                    } else {
+                      dispatch(RemoveProductFromCart(item));
+                    }
+                  }}
+                ></i>
                 {item.quantity}
-                <i className="ri-add-line"></i>
+                <i
+                  className="ri-add-line"
+                  onClick={() => {
+                    dispatch(
+                      EditProductInCart({
+                        ...item,
+                        quantity: item.quantity + 1,
+                      })
+                    );
+                  }}
+                ></i>
               </span>
 
               <span className="col-span-1">$ {item.price * item.quantity}</span>
