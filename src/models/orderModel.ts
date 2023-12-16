@@ -32,5 +32,8 @@ const orderSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.models['orders'] ||
-  mongoose.model('orders', orderSchema);
+if (mongoose.models && mongoose.models['orders']) {
+  delete mongoose.models['orders'];
+}
+
+export default mongoose.model('orders', orderSchema);

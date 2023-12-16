@@ -7,17 +7,26 @@ import {
   useElements,
   useStripe,
 } from '@stripe/react-stripe-js';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { ClearCart } from '@/redux/cartSlice';
+import Loader from '@/components/Loader';
 
-export default function CheckoutForm({ total }: { total: number }) {
+export default function CheckoutForm({
+  total,
+  setShowCheckoutModal,
+}: {
+  total: number;
+  setShowCheckoutModal: (showModal: boolean) => void;
+}) {
   const [loading, setLoading] = useState<boolean>(false);
 
   const stripe = useStripe();
   const elements = useElements();
 
   const { cartItems } = useSelector((state: any) => state.cart);
+  const dispatch = useDispatch();
 
   const router = useRouter();
 
@@ -62,6 +71,9 @@ export default function CheckoutForm({ total }: { total: number }) {
       };
 
       await axios.post('/api/orders/place_order', orderPayload);
+
+      dispatch(ClearCart());
+
       message.success('Order placed successfully');
 
       router.push('/profile');
@@ -74,23 +86,32 @@ export default function CheckoutForm({ total }: { total: number }) {
 
   return (
     <div>
-      <form onSubmit={handleSubmit} className="h-[400px] overflow-y-scroll p-5">
-        <PaymentElement />
-        <AddressElement
-          options={{
-            allowedCountries: ['US'],
-            mode: 'shipping',
-          }}
-        />
-        <Button
-          type="primary"
-          htmlType="submit"
-          className="mt-5"
-          block
-          loading={loading}
-        >
-          Pay
-        </Button>
+      {loading && <Loader />}
+
+      <form onSubmit={handleSubmit}>
+        <div className="h-[350px] overflow-y-scroll pr-5">
+          <PaymentElement />
+          <AddressElement
+            options={{
+              allowedCountries: ['US'],
+              mode: 'shipping',
+            }}
+          />
+        </div>
+
+        <div className="flex gap-5">
+          <Button
+            htmlType="button"
+            className="mt-5"
+            block
+            onClick={() => setShowCheckoutModal(false)}
+          >
+            Cancel
+          </Button>
+          <Button type="primary" htmlType="submit" className="mt-5" block>
+            Pay
+          </Button>
+        </div>
       </form>
     </div>
   );

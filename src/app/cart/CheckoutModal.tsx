@@ -1,10 +1,11 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { Modal } from 'antd';
+import { Modal, message } from 'antd';
 import axios from 'axios';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import CheckoutForm from './CheckoutForm';
+import Loader from '@/components/Loader';
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
@@ -22,13 +23,39 @@ export default function CheckoutModal({
   total,
 }: CheckoutModalProps) {
   const [clientSecret, setClientSecret] = useState<string>('');
+  const [loading, setLoading] = React.useState<boolean>(false);
 
-  const onPay = async (e: any) => {};
+  const loadClientSecret = async () => {
+    try {
+      setLoading(true);
+
+      const response = await axios.post('/api/stripe_client_secret', {
+        amount: total,
+      });
+
+      setClientSecret(response.data.clientSecret);
+    } catch (error: any) {
+      message.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    axios.post('/api/stripe_client_secret', { amount: total }).then((res) => {
-      setClientSecret(res.data.clientSecret);
-    });
+    // setLoading(true);
+
+    // axios
+    //   .post('/api/stripe_client_secret', { amount: total })
+    //   .then((res) => {
+    //     setClientSecret(res.data.clientSecret);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   })
+    //   .finally(() => {
+    //     setLoading(false);
+    //   });
+    loadClientSecret();
   }, []);
 
   return (
@@ -45,13 +72,18 @@ export default function CheckoutModal({
       closable={false}
       footer={false}
     >
+      {loading && <Loader />}
+
       <hr className="my-5" />
       {stripePromise && clientSecret && (
         <Elements
           stripe={stripePromise}
           options={{ clientSecret: clientSecret }}
         >
-          <CheckoutForm total={total} />
+          <CheckoutForm
+            total={total}
+            setShowCheckoutModal={setShowCheckoutModal}
+          />
         </Elements>
       )}
     </Modal>

@@ -35,8 +35,15 @@ export const cartSlice = createSlice({
         item._id === action.payload._id ? action.payload : item
       );
     },
+    ClearCart: (state) => {
+      state.cartItems = [];
+    },
   },
 });
 
-export const { AddProductToCart, RemoveProductFromCart, EditProductInCart } =
-  cartSlice.actions;
+export const {
+  AddProductToCart,
+  RemoveProductFromCart,
+  EditProductInCart,
+  ClearCart,
+} = cartSlice.actions;
