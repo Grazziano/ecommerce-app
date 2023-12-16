@@ -1,10 +1,10 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { Button, Modal } from 'antd';
+import { Modal } from 'antd';
 import axios from 'axios';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import { PaymentElement } from '@stripe/react-stripe-js';
+import CheckoutForm from './CheckoutForm';
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
@@ -23,13 +23,13 @@ export default function CheckoutModal({
 }: CheckoutModalProps) {
   const [clientSecret, setClientSecret] = useState<string>('');
 
+  const onPay = async (e: any) => {};
+
   useEffect(() => {
     axios.post('/api/stripe_client_secret', { amount: total }).then((res) => {
       setClientSecret(res.data.clientSecret);
     });
   }, []);
-
-  console.log(stripePromise);
 
   return (
     <Modal
@@ -51,12 +51,7 @@ export default function CheckoutModal({
           stripe={stripePromise}
           options={{ clientSecret: clientSecret }}
         >
-          <form>
-            <PaymentElement />
-            <Button type="primary" htmlType="submit" className="mt-5" block>
-              Pay
-            </Button>
-          </form>
+          <CheckoutForm total={total} />
         </Elements>
       )}
     </Modal>

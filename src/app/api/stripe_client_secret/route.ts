@@ -7,7 +7,7 @@ export async function POST(request: NextRequest) {
     const reqBody = await request.json();
 
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: reqBody.amount,
+      amount: reqBody.amount * 100,
       currency: 'usd',
       description: 'DevShop payment',
     });
