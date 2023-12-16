@@ -55,7 +55,12 @@ export default function UserOrdersList() {
 
   return (
     <div>
-      <Table columns={columns} dataSource={orders} rowKey="_id" />
+      <Table
+        columns={columns}
+        dataSource={orders}
+        rowKey="_id"
+        loading={loading}
+      />
     </div>
   );
 }
