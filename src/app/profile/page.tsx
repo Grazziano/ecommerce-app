@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import CategoriesList from './components/CategoriesList';
 import { useRouter, useSearchParams } from 'next/navigation';
 import ProductsList from './components/ProductsList';
+import UserOrdersList from './components/UserOrdersList';
 
 export default function Profile() {
   const { currentUser } = useSelector((state: any) => state.user);
@@ -43,7 +44,7 @@ export default function Profile() {
       {!currentUser.isAdmin && (
         <Tabs defaultActiveKey="1">
           <Tabs.TabPane tab="Orders" key="1">
-            Orders
+            <UserOrdersList />
           </Tabs.TabPane>
           <Tabs.TabPane tab="Personal Information" key="2">
             Personal Information
