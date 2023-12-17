@@ -1,4 +1,5 @@
 import AddToCartBtn from '@/components/AddToCartBtn';
+import { ProductInterface } from '@/interfaces/intex';
 import { Rate } from 'antd';
 import axios from 'axios';
 import { cookies } from 'next/headers';
@@ -28,9 +29,9 @@ export default async function Home() {
   return (
     <div>
       <div className="grid grid-cols-4 gap-5">
-        {products.map((product: any) => (
+        {products.map((product: ProductInterface) => (
           <div
-            key={product.id}
+            key={product._id}
             className="p-4 flex flex-col gap-2 border border-solid border-gray-300"
           >
             <Link href={`/products/${product._id}`}>
@@ -43,7 +44,15 @@ export default async function Home() {
                 />
               </div>
 
-              <span className="text-sm">{product.name}</span>
+              <div className="flex flex-col">
+                <span className="text-sm">{product.name}</span>
+
+                <span className="text-gray-500 text-xs">
+                  {product.countInStock > 0
+                    ? `${product.countInStock} in stock`
+                    : 'Out of stock'}
+                </span>
+              </div>
             </Link>
 
             <div className="flex justify-between items-center">

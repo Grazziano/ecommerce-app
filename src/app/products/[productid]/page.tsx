@@ -45,7 +45,15 @@ export default async function ProductInfo({ params }: ProductInfoProps) {
               ))}
             </div>
 
-            <h1 className="text-3xl">$ {product.price}</h1>
+            <div className="my-5 flex flex-col">
+              <span className="text-3xl">$ {product.price}</span>
+
+              <span className="text-gray-500 mt-2 ml-1">
+                {product.countInStock > 0
+                  ? `${product.countInStock} in stock`
+                  : 'Out of stock'}
+              </span>
+            </div>
 
             <ProductActionButtons product={product} />
           </div>

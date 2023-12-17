@@ -5,6 +5,7 @@ export interface ProductInterface {
   images: string[];
   category: string;
   countInStock: number;
+  rating?: number;
   _id?: string;
   createdAt?: string;
   updatedAt?: string;

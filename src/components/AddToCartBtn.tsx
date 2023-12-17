@@ -24,7 +24,8 @@ export default function AddToCartBtn({ product }: AddToCardProps) {
         e.stopPropagation();
       }}
       disabled={cartItems.some(
-        (item: ProductInterface) => item._id === product._id
+        (item: ProductInterface) =>
+          item._id === product._id || product.countInStock === 0
       )}
     >
       Add to card
