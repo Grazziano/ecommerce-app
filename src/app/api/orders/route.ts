@@ -17,7 +17,9 @@ export async function GET(request: NextRequest) {
 
     if (user) filters['user'] = user;
 
-    const orders = await Order.find(filters).populate('user', 'name email');
+    const orders = await Order.find(filters)
+      .populate('user', 'name email')
+      .sort({ createdAt: -1 });
 
     return NextResponse.json(orders);
   } catch (error: any) {

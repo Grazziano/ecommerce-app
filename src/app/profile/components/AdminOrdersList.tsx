@@ -29,7 +29,12 @@ export default function AdminOrdersList() {
   const onStatusUpdate = async (orderId: string, status: string) => {
     try {
       setStatusUpdatingLoading(true);
-    } catch (error) {
+      const endpoint = `/api/orders/${orderId}`;
+      await axios.put(endpoint, { orderStatus: status });
+      message.success('Order status updated successfully');
+      getOrders();
+    } catch (error: any) {
+      message.error(error.response.data.message || error.message);
     } finally {
       setStatusUpdatingLoading(false);
     }
@@ -41,6 +46,7 @@ export default function AdminOrdersList() {
 
   const columns = [
     { title: 'Order ID', dataIndex: '_id' },
+    { title: 'User', dataIndex: 'user', render: (user: any) => user.name },
     {
       title: 'Placed On',
       dataIndex: 'createdAt',
@@ -50,7 +56,20 @@ export default function AdminOrdersList() {
     {
       title: 'Status',
       dataIndex: 'orderStatus',
-      render: (status: string) => status.toUpperCase(),
+      render: (status: string, record: any) => (
+        <div>
+          <select
+            value={status}
+            onChange={(e) => onStatusUpdate(record._id, e.target.value)}
+          >
+            <option value="order placed">Order Placed</option>
+            <option value="shipped">Shipped</option>
+            <option value="out for delivery">Out for Delivery</option>
+            <option value="delivered">Delivered</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+      ),
     },
     {
       title: 'Action',

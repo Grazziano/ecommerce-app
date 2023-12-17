@@ -46,12 +46,17 @@ export default function UserOrdersList() {
     {
       title: 'Action',
       render: (record: any) => (
-        <span
-          className="underline cursor-pointer"
-          onClick={() => router.push(`/profile/orders/${record._id}`)}
-        >
-          View
-        </span>
+        <div className="flex gap-5">
+          <span className="underline cursor-pointer" onClick={() => {}}>
+            Cancel
+          </span>
+          <span
+            className="underline cursor-pointer"
+            onClick={() => router.push(`/profile/orders/${record._id}`)}
+          >
+            View
+          </span>
+        </div>
       ),
     },
   ];

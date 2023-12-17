@@ -74,6 +74,7 @@ export default function OrderInfo({ params }: OrderInfoProps) {
             )}
             {getProperty('Total Amount', `$ ${order.total}`)}
             {getProperty('Order Status', order.paymentStatus)}
+            {getProperty('Transaction Id', order.transactionId)}
 
             <hr className="w-full border-gray-300 border-dashed col-span-3" />
 
