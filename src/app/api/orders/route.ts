@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
 
     const searchParams = new URL(request.nextUrl).searchParams;
 
-    const { user }: any = searchParams;
+    const user = searchParams.get('user');
 
     const filters: any = {};
 

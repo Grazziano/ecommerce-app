@@ -3,18 +3,21 @@ import { Table, message } from 'antd';
 import axios from 'axios';
 import moment from 'moment';
 import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
 
 export default function UserOrdersList() {
   const [loading, setLoading] = useState<boolean>(false);
   const [orders, setOrders] = useState<any[]>([]);
+
+  const { currentUser } = useSelector((state: any) => state.user);
 
   const router = useRouter();
 
   const getOrders = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('/api/orders');
-      // console.log(response.data);
+      const endpoind = `/api/orders?user=${currentUser._id}`;
+      const response = await axios.get(endpoind);
       setOrders(response.data);
     } catch (error: any) {
       message.error(error.message);
@@ -60,6 +63,7 @@ export default function UserOrdersList() {
         dataSource={orders}
         rowKey="_id"
         loading={loading}
+        pagination={false}
       />
     </div>
   );

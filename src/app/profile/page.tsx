@@ -6,6 +6,7 @@ import CategoriesList from './components/CategoriesList';
 import { useRouter, useSearchParams } from 'next/navigation';
 import ProductsList from './components/ProductsList';
 import UserOrdersList from './components/UserOrdersList';
+import AdminOrdersList from './components/AdminOrdersList';
 
 export default function Profile() {
   const { currentUser } = useSelector((state: any) => state.user);
@@ -33,7 +34,7 @@ export default function Profile() {
             <CategoriesList />
           </Tabs.TabPane>
           <Tabs.TabPane tab="Orders" key="3">
-            Orders
+            <AdminOrdersList />
           </Tabs.TabPane>
           <Tabs.TabPane tab="Users" key="4">
             Users
