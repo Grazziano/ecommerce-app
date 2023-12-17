@@ -40,6 +40,20 @@ export default function AdminOrdersList() {
     }
   };
 
+  const onRefundIssue = async (orderId: string, transactionId: string) => {
+    try {
+      setStatusUpdatingLoading(true);
+      const endpoint = `/api/stripe_refund`;
+      await axios.post(endpoint, { orderId, transactionId });
+      message.success('Refund issued successfully');
+      getOrders();
+    } catch (error: any) {
+      message.error(error.response.data.message);
+    } finally {
+      setStatusUpdatingLoading(false);
+    }
+  };
+
   useEffect(() => {
     getOrders();
   }, []);
@@ -72,14 +86,31 @@ export default function AdminOrdersList() {
       ),
     },
     {
+      title: 'Status',
+      dataIndex: 'paymentStatus',
+      render: (status: string) => status.toUpperCase(),
+    },
+    {
       title: 'Action',
       render: (record: any) => (
-        <span
-          className="underline cursor-pointer"
-          onClick={() => router.push(`/profile/orders/${record._id}`)}
-        >
-          View
-        </span>
+        <div className="flex gap-5">
+          {record.orderStatus === 'cancelled' &&
+            record.paymentStatus === 'paid' && (
+              <span
+                className="underline cursor-pointer"
+                onClick={() => onRefundIssue(record._id, record.transactionId)}
+              >
+                Issue Refund
+              </span>
+            )}
+
+          <span
+            className="underline cursor-pointer"
+            onClick={() => router.push(`/profile/orders/${record._id}`)}
+          >
+            View
+          </span>
+        </div>
       ),
     },
   ];
