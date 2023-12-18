@@ -3,6 +3,7 @@ import axios from 'axios';
 import { cookies } from 'next/headers';
 import ProductImages from './ProductImages';
 import ProductActionButtons from './ProductActionButtons';
+import ProductReviews from './ProductReviews';
 
 async function getProduct(productId: string) {
   try {
@@ -56,6 +57,12 @@ export default async function ProductInfo({ params }: ProductInfoProps) {
             </div>
 
             <ProductActionButtons product={product} />
+
+            <div className="pt-10">
+              <hr />
+            </div>
+
+            <ProductReviews product={product} />
           </div>
         </div>
       )}

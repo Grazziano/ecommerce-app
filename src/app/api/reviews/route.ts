@@ -7,9 +7,11 @@ connectDB();
 
 export async function POST(request: NextRequest) {
   try {
-    await validateJWT(request);
+    const userId = await validateJWT(request);
 
     const reqBody = await request.json();
+
+    reqBody.user = userId;
 
     const newReview = new Review(reqBody);
 
