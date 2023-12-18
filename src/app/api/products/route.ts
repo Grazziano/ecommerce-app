@@ -35,7 +35,21 @@ export async function GET(request: NextRequest) {
   try {
     await validateJWT(request);
 
-    const products = await Product.find()
+    const filters: any = {};
+
+    const searchParams = request.nextUrl.searchParams;
+    const category = searchParams.get('category');
+    const search = searchParams.get('search');
+
+    if (category) {
+      filters['category'] = category;
+    }
+
+    if (search) {
+      filters['name'] = { $regex: search, $options: 'i' };
+    }
+
+    const products = await Product.find(filters)
       .populate('createdBy', 'name')
       .sort({ createdAt: -1 });
 
