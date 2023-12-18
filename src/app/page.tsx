@@ -1,4 +1,5 @@
 import AddToCartBtn from '@/components/AddToCartBtn';
+import Filters from '@/components/Filters';
 import { ProductInterface } from '@/interfaces';
 import { Rate } from 'antd';
 import axios from 'axios';
@@ -6,11 +7,12 @@ import { cookies } from 'next/headers';
 import Image from 'next/image';
 import Link from 'next/link';
 
-async function getProducts() {
+async function getProducts(searchParams: any) {
   try {
     const cookieStore = cookies();
     const token = cookieStore.get('token')?.value;
-    const endPoint = `${process.env.DOMAIN}/api/products`;
+    const category = searchParams.category || '';
+    const endPoint = `${process.env.DOMAIN}/api/products?category=${category}`;
     const response = await axios.get(endPoint, {
       headers: {
         Cookie: `token=${token}`,
@@ -23,12 +25,14 @@ async function getProducts() {
   }
 }
 
-export default async function Home() {
-  const products = await getProducts();
+export default async function Home({ searchParams }: { searchParams: any }) {
+  const products = await getProducts(searchParams);
 
   return (
     <div>
-      <div className="grid grid-cols-4 gap-5">
+      <Filters />
+
+      <div className="grid grid-cols-4 gap-5 mt-5">
         {products.map((product: ProductInterface) => (
           <div
             key={product._id}
