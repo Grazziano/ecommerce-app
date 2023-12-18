@@ -4,6 +4,7 @@ import { cookies } from 'next/headers';
 import ProductImages from './ProductImages';
 import ProductActionButtons from './ProductActionButtons';
 import ProductReviews from './ProductReviews';
+import { Rate } from 'antd';
 
 async function getProduct(productId: string) {
   try {
@@ -55,6 +56,12 @@ export default async function ProductInfo({ params }: ProductInfoProps) {
                   : 'Out of stock'}
               </span>
             </div>
+
+            <Rate
+              disabled
+              defaultValue={product.rating || 0}
+              style={{ color: '#26577C' }}
+            />
 
             <ProductActionButtons product={product} />
 

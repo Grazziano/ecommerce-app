@@ -1,4 +1,4 @@
-import { ProductInterface } from '@/interfaces/intex';
+import { ProductInterface } from '@/interfaces';
 import { createSlice } from '@reduxjs/toolkit';
 
 export interface CartState {

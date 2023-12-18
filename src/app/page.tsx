@@ -1,5 +1,5 @@
 import AddToCartBtn from '@/components/AddToCartBtn';
-import { ProductInterface } from '@/interfaces/intex';
+import { ProductInterface } from '@/interfaces';
 import { Rate } from 'antd';
 import axios from 'axios';
 import { cookies } from 'next/headers';
@@ -56,7 +56,11 @@ export default async function Home() {
             </Link>
 
             <div className="flex justify-between items-center">
-              <Rate disabled defaultValue={product.rating || 0} />
+              <Rate
+                disabled
+                defaultValue={product.rating || 0}
+                style={{ color: '#26577C' }}
+              />
 
               <div className="flex gap-5 items-center">
                 <h1 className="text-xl font-semibold">$ {product.price}</h1>

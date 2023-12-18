@@ -3,7 +3,7 @@ import React from 'react';
 import { Button, message } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { AddProductToCart, CartState } from '@/redux/cartSlice';
-import { ProductInterface } from '@/interfaces/intex';
+import { ProductInterface } from '@/interfaces';
 
 interface AddToCardProps {
   product: ProductInterface;

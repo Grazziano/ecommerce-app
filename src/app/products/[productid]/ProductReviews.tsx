@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { ProductInterface } from '@/interfaces/intex';
+import { ProductInterface } from '@/interfaces';
 import { Button, Modal, Rate, message } from 'antd';
 import axios from 'axios';
 
@@ -35,6 +35,7 @@ export default function ProductReviews({ product }: ProductReviewsProps) {
         product: product._id,
       });
       message.success(response.data.message);
+      setShowReviewForm(false);
       getReviews();
     } catch (error: any) {
       message.error(error.response.data.message);
@@ -51,7 +52,14 @@ export default function ProductReviews({ product }: ProductReviewsProps) {
     <div className="mt-5">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-semibold">Reviews</h1>
-        <Button type="primary" onClick={() => setShowReviewForm(true)}>
+        <Button
+          type="primary"
+          onClick={() => {
+            setComment('');
+            setRating(0);
+            setShowReviewForm(true);
+          }}
+        >
           Write a Review
         </Button>
       </div>
@@ -61,6 +69,31 @@ export default function ProductReviews({ product }: ProductReviewsProps) {
           <span>No reviews yet. Be the first to review this product.</span>
         </div>
       )}
+
+      <div className="flex flex-col gap-5 mt-5">
+        {reviews.map((review: any) => (
+          <div
+            key={review._id}
+            className="flex flex-col gap-2 border border-gray-400 p-3 border-solid"
+          >
+            <div className="flex justify-between">
+              <div className="flex gap-2 items-center">
+                <div className="flex p-3 items-center justify-center bg-gray-600 rounded-full h-8 w-8 text-white">
+                  <span>{review.user.name[0]}</span>
+                </div>
+                <span className="text-sm">{review.user.name}</span>
+              </div>
+              <Rate
+                disabled
+                defaultValue={review.rating}
+                style={{ color: '#26577C' }}
+              />
+            </div>
+
+            <span className="text-sm text-gray-500">{review.comment}</span>
+          </div>
+        ))}
+      </div>
 
       <Modal
         open={showReviewForm}
