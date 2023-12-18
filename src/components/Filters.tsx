@@ -40,8 +40,17 @@ export default function Filters() {
     getCategories();
   }, []);
 
+  useEffect(() => {
+    // update the search params for every 500ms
+    const timer = setTimeout(() => {
+      const newSearchParams = new URLSearchParams(searchParams.toString());
+      newSearchParams.set('search', search);
+      router.push(`/?${newSearchParams.toString()}`);
+    }, 500);
+  }, [search]);
+
   return (
-    <div>
+    <div className="flex flex-col gap-5">
       <div className="flex gap-10 bg-gray-300 py-2 px-5">
         {categories.map((category: any) => (
           <div
@@ -57,6 +66,13 @@ export default function Filters() {
           </div>
         ))}
       </div>
+
+      <input
+        type="text"
+        placeholder="Search products"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
     </div>
   );
 }

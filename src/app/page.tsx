@@ -12,7 +12,8 @@ async function getProducts(searchParams: any) {
     const cookieStore = cookies();
     const token = cookieStore.get('token')?.value;
     const category = searchParams.category || '';
-    const endPoint = `${process.env.DOMAIN}/api/products?category=${category}`;
+    const search = searchParams.search || '';
+    const endPoint = `${process.env.DOMAIN}/api/products?category=${category}&search=${search}`;
     const response = await axios.get(endPoint, {
       headers: {
         Cookie: `token=${token}`,
