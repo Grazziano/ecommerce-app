@@ -8,6 +8,7 @@ import ProductsList from './components/ProductsList';
 import UserOrdersList from './components/UserOrdersList';
 import AdminOrdersList from './components/AdminOrdersList';
 import PersonalInfo from './components/PersonalInfo';
+import UsersList from './components/UsersList';
 
 export default function Profile() {
   const { currentUser } = useSelector((state: any) => state.user);
@@ -38,7 +39,7 @@ export default function Profile() {
             <AdminOrdersList />
           </Tabs.TabPane>
           <Tabs.TabPane tab="Users" key="4">
-            Users
+            <UsersList />
           </Tabs.TabPane>
           <Tabs.TabPane tab="Personal Information" key="5">
             <PersonalInfo />
