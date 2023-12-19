@@ -51,10 +51,12 @@ export async function PUT(request: NextRequest, { params }: Params) {
 
     reqBody.password = hashedPassword;
 
-    await User.findByIdAndUpdate(userId, reqBody);
+    const updatedUser = await User.findByIdAndUpdate(userId, reqBody, {
+      new: true,
+    }).select('-password');
 
     return NextResponse.json(
-      { message: 'User updated successfully' },
+      { message: 'User updated successfully', data: updatedUser },
       { status: 200 }
     );
   } catch (error: any) {

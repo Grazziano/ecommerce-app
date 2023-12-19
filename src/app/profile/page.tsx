@@ -7,6 +7,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import ProductsList from './components/ProductsList';
 import UserOrdersList from './components/UserOrdersList';
 import AdminOrdersList from './components/AdminOrdersList';
+import PersonalInfo from './components/PersonalInfo';
 
 export default function Profile() {
   const { currentUser } = useSelector((state: any) => state.user);
@@ -39,6 +40,9 @@ export default function Profile() {
           <Tabs.TabPane tab="Users" key="4">
             Users
           </Tabs.TabPane>
+          <Tabs.TabPane tab="Personal Information" key="5">
+            <PersonalInfo />
+          </Tabs.TabPane>
         </Tabs>
       )}
 
@@ -48,7 +52,7 @@ export default function Profile() {
             <UserOrdersList />
           </Tabs.TabPane>
           <Tabs.TabPane tab="Personal Information" key="2">
-            Personal Information
+            <PersonalInfo />
           </Tabs.TabPane>
         </Tabs>
       )}
