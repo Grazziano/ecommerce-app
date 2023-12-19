@@ -31,9 +31,9 @@ export default async function ProductInfo({ params }: ProductInfoProps) {
   const product = await getProduct(params.productid);
 
   return (
-    <div className="mt-10 px-10">
+    <div className="mt-10 px-2 md:px-10">
       {product && (
-        <div className="grid grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <ProductImages product={product} />
 
           <div className="flex flex-col">

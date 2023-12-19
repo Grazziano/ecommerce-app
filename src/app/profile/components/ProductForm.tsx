@@ -55,7 +55,7 @@ export default function ProductForm({
     <div>
       <Form
         layout="vertical"
-        className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-5"
+        className="mt-10 flex flex-col xl:grid grid-cols-3 gap-5"
         onFinish={onSave}
         initialValues={inicialValues}
       >

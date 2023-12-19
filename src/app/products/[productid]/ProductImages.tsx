@@ -6,8 +6,8 @@ export default function ProductImages({ product }: { product: any }) {
   const [selectedImage, setSelectedImage] = useState<string>(product.images[0]);
 
   return (
-    <div className="flex gap-5">
-      <div className="flex flex-col gap-5">
+    <div className="flex gap-5 flex-col md:flex-row">
+      <div className="flex md:flex-col flex-row gap-5">
         {product.images.map((image: any) => (
           <div key={image} onClick={() => setSelectedImage(image)}>
             <Image
@@ -16,8 +16,7 @@ export default function ProductImages({ product }: { product: any }) {
               height={50}
               width={50}
               className={`object-cover cursor-pointer border border-solid p-2 border-gray-300 ${
-                selectedImage === image &&
-                'border-solid border-blue-500 border-2'
+                selectedImage === image && 'border-solid border-black border-2'
               }`}
             />
           </div>

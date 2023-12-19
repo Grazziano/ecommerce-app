@@ -58,13 +58,13 @@ export default function OrderInfo({ params }: OrderInfoProps) {
 
       {order && (
         <div>
-          <h1 className="text-2xl font-bold text-gray-700">
+          <h1 className="text-sm xl:text-2xl font-bold text-gray-700">
             View Order: #{order._id}
           </h1>
 
           <hr className="border-gray-300 border-solid" />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-8">
+          <div className="flex flex-col xl:grid grid-cols-3 gap-5 mt-8 w-full">
             <h1 className="text-xl col-span-3">Basic Information</h1>
 
             {getProperty('Order Id', order._id)}

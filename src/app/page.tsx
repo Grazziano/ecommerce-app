@@ -33,24 +33,33 @@ export default async function Home({ searchParams }: { searchParams: any }) {
     <div>
       <Filters />
 
-      <div className="grid grid-cols-4 gap-5 mt-5">
+      <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-5 mt-5">
         {products.map((product: ProductInterface) => (
           <div
             key={product._id}
-            className="p-4 flex flex-col gap-2 border border-solid border-gray-300"
+            className="px-4 py-2 flex flex-col gap-2 border border-solid border-gray-300"
           >
             <Link href={`/products/${product._id}`}>
               <div className="text-center">
                 <Image
                   src={product.images[0]}
                   alt=""
-                  height={180}
-                  width={180}
+                  height={150}
+                  width={150}
                 />
               </div>
 
-              <div className="flex flex-col">
+              <div className="flex flex-col mt-5">
                 <span className="text-sm">{product.name}</span>
+              </div>
+
+              <div className="flex justify-between items-center">
+                <Rate
+                  disabled
+                  defaultValue={product.rating || 0}
+                  style={{ color: '#26577C' }}
+                  allowHalf={true}
+                />
 
                 <span className="text-gray-500 text-xs">
                   {product.countInStock > 0
@@ -60,17 +69,9 @@ export default async function Home({ searchParams }: { searchParams: any }) {
               </div>
             </Link>
 
-            <div className="flex justify-between items-center">
-              <Rate
-                disabled
-                defaultValue={product.rating || 0}
-                style={{ color: '#26577C' }}
-              />
-
-              <div className="flex gap-5 items-center">
-                <h1 className="text-xl font-semibold">$ {product.price}</h1>
-                <AddToCartBtn product={product} />
-              </div>
+            <div className="flex gap-5 items-center justify-between">
+              <h1 className="text-xl font-semibold">$ {product.price}</h1>
+              <AddToCartBtn product={product} />
             </div>
           </div>
         ))}

@@ -26,24 +26,24 @@ export default function Cart() {
   return (
     <div className="mt-10">
       {cartItems.length > 0 ? (
-        <div className="grid grid-cols-3 text-gray-700 gap-10">
+        <div className="grid xl:grid-cols-3 grid-cols-1 text-gray-700 gap-10">
           <div className="col-span-2 flex flex-col gap-5">
             <h1 className="text-2xl font-semibold">My Cart</h1>
 
-            <div className="grid grid-cols-7 gap-10">
+            <div className="hidden md:grid grid-cols-7 gap-10">
               <span className="col-span-4">Product</span>
               <span className="col-span-1">Each</span>
               <span className="col-span-1">Quantity</span>
               <span className="col-span-1">Total</span>
             </div>
 
-            <div className="col-span-7 mt-5">
+            <div className="col-span-7 mt-5 hidden md:block">
               <hr />
             </div>
 
             {cartItems.map((item) => (
               <div
-                className="grid grid-cols-7 items-center gap-10"
+                className="grid grid-cols-4 xl:grid-cols-7 items-center gap-2 xl:gap-10"
                 key={item._id}
               >
                 <div className="col-span-4 flex gap-2 items-center">
@@ -52,7 +52,7 @@ export default function Cart() {
                     alt={item.name}
                     height={80}
                     width={80}
-                    className="border p-2 border-gray-300 border-solid"
+                    className="border p-2 border-gray-300 border-solid hidden xl:block"
                   />
                   <div className="flex flex-col gap-2 ml-2">
                     <span className="text-sm">{item.name}</span>
@@ -102,6 +102,10 @@ export default function Cart() {
                 <span className="col-span-1">
                   $ {item.price * item.quantity}
                 </span>
+
+                <div className="xl:hidden block col-span-4">
+                  <hr className="border border-gray-400 border-dotted" />
+                </div>
               </div>
             ))}
 
